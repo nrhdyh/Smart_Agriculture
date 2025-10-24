@@ -5,7 +5,7 @@ st.set_page_config(
     page_title="Student Survey"
 )
 
-visualise = st.Page('objective1.py', title='Objective 1', icon="::")
+visualise = st.Page('objective1.py', title='Objective 1')
 
 home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
 
