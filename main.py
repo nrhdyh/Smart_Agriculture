@@ -6,7 +6,7 @@ st.set_page_config(layout="wide")
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("married_data_on_Climate_Smart_Agriculture.csv")
+    return pd.read_csv("https://github.com/nrhdyh/Smart_Agriculture/blob/main/married_data_on_Climate_Smart_Agriculture.csv")
 
 df = load_data()
 
