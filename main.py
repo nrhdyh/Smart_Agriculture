@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.set_page_config(page_title="Climate Smart Agriculture", layout="wide")
+st.set_page_config(layout="wide")
 
 @st.cache_data
 def load_data():
@@ -10,29 +10,31 @@ def load_data():
 
 df = load_data()
 
-st.sidebar.success("Select a page to explore 👈")
-
-st.title("🌿 Climate-Smart Agriculture Dashboard")
+st.title("📘 Objective 1: Awareness & Education Impact")
 st.markdown("""
-### 🎯 Objective
-To analyze how married individuals engage in climate-smart agriculture (CSA) practices 
-and understand the factors influencing adoption and awareness.
+**Objective:** To examine how education level influences awareness and adoption of CSA practices among married individuals.
 """)
 
-st.info("This dashboard presents insights about awareness, income, education, and regional participation in CSA programs using interactive visualizations.")
+st.info("Higher education is linked with increased awareness and adoption of CSA techniques. These visualizations show patterns between education, awareness, and adoption.")
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
-    if "Gender" in df.columns and "Awareness_Level" in df.columns:
-        fig = px.bar(df, x="Gender", color="Awareness_Level",
-                     title="Awareness Level by Gender",
-                     color_discrete_sequence=px.colors.qualitative.Set2)
-        st.plotly_chart(fig, use_container_width=True)
+    fig = px.histogram(df, x="Education_Level", color="Awareness_Level",
+                       title="Awareness by Education Level",
+                       color_discrete_sequence=px.colors.sequential.Greens)
+    st.plotly_chart(fig, use_container_width=True)
 
 with col2:
-    if "Education_Level" in df.columns and "Adoption_of_CSA" in df.columns:
-        fig = px.box(df, x="Education_Level", y="Adoption_of_CSA",
-                     title="CSA Adoption by Education Level",
-                     color_discrete_sequence=["#81C784"])
-        st.plotly_chart(fig, use_container_width=True)
+    fig = px.scatter(df, x="Education_Level", y="Adoption_of_CSA",
+                     color="Awareness_Level", title="Adoption vs Education",
+                     color_discrete_sequence=px.colors.qualitative.Set2)
+    st.plotly_chart(fig, use_container_width=True)
+
+with col3:
+    fig = px.density_heatmap(df, x="Awareness_Level", y="Adoption_of_CSA",
+                             title="Heatmap: Awareness vs Adoption",
+                             color_continuous_scale="Greens")
+    st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("**Interpretation:** Farmers with higher education tend to have greater CSA awareness and adoption, showing education’s critical role in sustainable practices.")
