@@ -2,8 +2,7 @@ import pandas as pd
 import plotly.express as px
 
 # Load dataset
-url = "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/refs/heads/main/married_data_on_Climate_Smart_Agriculture.csv"
-df = pd.read_csv(url)
+df = pd.read_csv("https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/refs/heads/main/married_data_on_Climate_Smart_Agriculture.csv")
 
 # 1. Bar - Level of education
 fig1 = px.bar(df['Level of education'].value_counts().reset_index(),
