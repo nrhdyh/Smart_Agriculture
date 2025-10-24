@@ -6,6 +6,7 @@ st.set_page_config(
     layout="wide"
 )
 
+# --- Custom UI Style ---
 st.markdown("""
     <style>
         .main {
@@ -33,10 +34,13 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-st.write("Welcome to the **Climate Smart Agriculture Dashboard**. Navigate using the sidebar to explore three analytical sections:")
+st.write("""
+Welcome to the **Climate Smart Agriculture Dashboard**.  
+Use the sidebar to explore three interactive sections:
+""")
+
 st.markdown("""
 1️⃣ **Awareness and Education Impact** – How education affects awareness of CSA practices.  
 2️⃣ **Economic and Farm Characteristics** – Relationship between income, farm size, and adoption.  
 3️⃣ **Training and Satisfaction** – Influence of training on satisfaction levels.  
 """)
-st.info("📘 Select a page from the sidebar to start exploring the dataset.")
