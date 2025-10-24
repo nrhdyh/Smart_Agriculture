@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 st.title("🎓 Awareness and Education Impact")
-df = pd.read_csv("married_data_on_Climate_Smart_Agriculture.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/refs/heads/main/married_data_on_Climate_Smart_Agriculture.csv")
 
 # Objective
 st.subheader("Objective Statement")
