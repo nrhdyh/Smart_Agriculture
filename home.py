@@ -37,7 +37,7 @@ This dashboard explores insights from **married household heads** on factors inf
 """)
 
 st.image(
-    "https://images.unsplash.com/photo-1599498771460-26c1b2e2f743?auto=format&fit=crop&w=1200&q=60",
+    "https://github.com/nrhdyh/Smart_Agriculture/blob/main/360_F_296268274_ytY0Jo0RFnJip1M2KSE9SXzC4Hw7m9kb.jpg",
     caption="Sustainable Agriculture in Practice 🌾"
 )
 
