@@ -8,18 +8,19 @@ DATA_URL = "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/refs/head
 
 @st.cache_data
 def load_data(path):
+    """Load dataset safely with error handling"""
     try:
         df = pd.read_csv(path)
         return df
     except Exception as e:
-        st.error(f"Error loading data: {e}")
+        st.error(f"❌ Error loading data: {e}")
         return pd.DataFrame()
 
 # Load the data
 freehold_df = load_data(DATA_URL)
 
 # ===========================
-# STREAMLIT UI
+# STREAMLIT UI SETUP
 # ===========================
 st.set_page_config(page_title="Climate Smart Agriculture Dashboard", page_icon="🌿", layout="wide")
 
@@ -27,7 +28,14 @@ st.title("🌿 Climate Smart Agriculture Dashboard")
 
 st.markdown("""
 Welcome to the **Climate Smart Agriculture (CSA)** data visualization platform.  
-This dashboard analyzes insights from **married household heads** on various factors influencing CSA adoption.
+This dashboard explores insights from **married household heads** on factors influencing CSA adoption.
+
+### 📊 Pages Overview
+- **Objective 1:** Explore education, demographics, and training participation.  
+- **Objective 2:** Analyze land ownership, land size, and economic patterns.  
+- **Objective 3:** Understand adoption of CSA practices and climate change perceptions.
+
+Use the top navigation menu to explore each section.
 """)
 
 st.image(
@@ -38,15 +46,18 @@ st.image(
 st.markdown("---")
 
 # ===========================
-# SUMMARY STATISTICS
+# SUMMARY STATISTICS SECTION
 # ===========================
 if not freehold_df.empty:
-    st.subheader("Key Summary Statistics")
+    st.subheader("🌱 Key Summary Statistics")
 
+    # --- Helper Functions ---
     def safe_mean(df, col):
+        """Safely calculate mean for numeric columns"""
         return df[col].mean() if col in df.columns else 0
 
     def safe_percentage(df, col, value):
+        """Safely calculate percentage of a given value"""
         if col in df.columns:
             return df[col].value_counts(normalize=True).get(value, 0) * 100
         return 0
@@ -57,7 +68,7 @@ if not freehold_df.empty:
     training_rate = safe_percentage(freehold_df, 'Training', 1)
     high_perception = safe_percentage(freehold_df, 'Perception of climate change', 2)
 
-    # --- Display Metrics ---
+    # --- Display Metrics in 4 Columns ---
     col1, col2, col3, col4 = st.columns(4)
 
     col1.metric(
@@ -77,22 +88,23 @@ if not freehold_df.empty:
     col3.metric(
         label="Training Participation Rate",
         value=f"{training_rate:.1f}%",
-        help="Percentage of households that participated in agricultural training.",
+        help="Percentage of households that participated in agricultural training programs.",
         delta_color="normal",
         delta="Training"
     )
     col4.metric(
         label="High Climate Change Perception",
         value=f"{high_perception:.1f}%",
-        help="Percentage of households reporting a high perception/awareness of climate change.",
+        help="Percentage of households with high perception/awareness of climate change.",
         delta_color="normal",
         delta="Awareness"
     )
 
     st.markdown("---")
 
+    # --- Optional: Dataset Preview ---
     with st.expander("📄 View Raw Dataset"):
         st.dataframe(freehold_df.head())
 
 else:
-    st.warning("⚠️ Unable to load data. Please check the dataset URL or connection.")
+    st.warning("⚠️ Unable to load data. Please check the dataset URL or your connection.")
