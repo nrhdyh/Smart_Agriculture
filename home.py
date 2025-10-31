@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 # Import necessary utilities to load data and access mappings
-from utils import load_data, DATA_URL, ENCODING_MAPPING 
+# from utils import load_data, DATA_URL, ENCODING_MAPPING 
 
 # Load the data
 freehold_df = load_data(DATA_URL)
