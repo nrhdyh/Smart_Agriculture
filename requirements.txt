@@ -4,6 +4,4 @@ numpy
 datetime
 plotly.express
 utils 
-load_data
-DATA_URL
-ENCODING_MAPPING 
+
