@@ -28,13 +28,6 @@ st.title("🌿 Climate Smart Agriculture Dashboard")
 st.markdown("""
 Welcome to the **Climate Smart Agriculture (CSA)** data visualization platform.  
 This dashboard analyzes insights from **married household heads** on various factors influencing CSA adoption.
-
-### 📊 Pages Overview
-- **Objective 1:** Explore education, demographics, and training participation.  
-- **Objective 2:** Analyze land ownership, land size, and economic patterns.  
-- **Objective 3:** Understand adoption of CSA practices and climate change perceptions.
-
-Use the top navigation menu to explore each section.
 """)
 
 st.image(
@@ -50,7 +43,6 @@ st.markdown("---")
 if not freehold_df.empty:
     st.subheader("Key Summary Statistics")
 
-    # Handle missing or incorrect column names safely
     def safe_mean(df, col):
         return df[col].mean() if col in df.columns else 0
 
@@ -62,7 +54,7 @@ if not freehold_df.empty:
     # --- Metric Calculations ---
     water_adoption = safe_percentage(freehold_df, 'Water harvesting', 1)
     avg_land_size = safe_mean(freehold_df, 'Land size')
-    avg_income = safe_mean(freehold_df, 'Income ')
+    training_rate = safe_percentage(freehold_df, 'Training', 1)
     high_perception = safe_percentage(freehold_df, 'Perception of climate change', 2)
 
     # --- Display Metrics ---
@@ -83,11 +75,11 @@ if not freehold_df.empty:
         delta="Hectares"
     )
     col3.metric(
-        label="Average Household Income",
-        value=f"Avg {avg_income:,.0f}",
-        help="Mean household income (monthly or annual depending on dataset).",
-        delta_color="off",
-        delta="Income"
+        label="Training Participation Rate",
+        value=f"{training_rate:.1f}%",
+        help="Percentage of households that participated in agricultural training.",
+        delta_color="normal",
+        delta="Training"
     )
     col4.metric(
         label="High Climate Change Perception",
@@ -99,7 +91,6 @@ if not freehold_df.empty:
 
     st.markdown("---")
 
-    # Optional: Display dataset preview
     with st.expander("📄 View Raw Dataset"):
         st.dataframe(freehold_df.head())
 
