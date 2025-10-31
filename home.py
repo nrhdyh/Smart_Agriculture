@@ -27,9 +27,6 @@ st.set_page_config(page_title="Climate Smart Agriculture Dashboard", page_icon="
 st.title("🌿 Climate Smart Agriculture Dashboard")
 
 st.markdown("""
-Welcome to the **Climate Smart Agriculture (CSA)** data visualization platform.  
-This dashboard explores insights from **married household heads** on factors influencing CSA adoption.
-
 ### 📊 Dashboard Overview
 - **Objective 1:** Explore education, demographics, and training participation.  
 - **Objective 2:** Analyze land ownership, land size, and economic patterns.  
