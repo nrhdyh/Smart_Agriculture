@@ -98,12 +98,35 @@ if not freehold_df.empty:
         st.success(most_common_edu)
         st.caption("Most household heads have lower education levels.")
 
-    # --- Column 4: Gender Ratio ---
+        # --- Column 4: Gender Ratio ---
     with col4:
         st.markdown("### 👨‍🌾 Gender Distribution")
+
+        # Handle both numeric and text gender values
+        if "Gender of household head" in freehold_df.columns:
+            gender_col = freehold_df["Gender of household head"].astype(str).str.lower()
+
+            male_count = gender_col[gender_col.str.contains("1|male")].count()
+            female_count = gender_col[gender_col.str.contains("2|female")].count()
+            total_gender = male_count + female_count
+
+            if total_gender > 0:
+                male_ratio = (male_count / total_gender) * 100
+                female_ratio = 100 - male_ratio
+            else:
+                male_ratio, female_ratio = 0, 0
+        else:
+            male_ratio, female_ratio = 0, 0
+
+        # Display metrics dynamically
         st.metric(label="Male Heads", value=f"{male_ratio:.1f}%")
         st.progress(male_ratio / 100)
-        st.caption(f"Female Heads: {female_ratio:.1f}%")
+
+        if total_gender > 0:
+            st.caption(f"Female Heads: {female_ratio:.1f}% ({female_count} of {total_gender})")
+        else:
+            st.caption("No gender data available.")
+
 
 else:
     st.warning("⚠️ No data available. Please check the dataset URL or file format.")
