@@ -98,8 +98,11 @@ else:
     st.plotly_chart(fig_land_water, use_container_width=True)
 
     st.markdown("""
-    * **Explanation:** This box plot compares **land size** between households that **adopted water harvesting** and those that did not.
-    * **Key Insight:** Larger landowners tend to adopt water harvesting more often.
+    This box plot illustrates the relationship between **land size** and the **adoption of water harvesting practices** among surveyed households. 
+    The x-axis represents the two categories of adoption which are **“No Adoption”** and **“Adopted”** while the y-axis shows the **distribution of land sizes** (in acres or hectares, depending on the dataset). 
+    Each box summarizes the spread of land sizes within each group which is the central line represents the **median**, the box edges indicate the **interquartile range (IQR)** (middle 50% of values), and the whiskers extend to show the variability outside the middle range. 
+    The scattered points represent individual data observations. From the plot, it appears that both adopters and non-adopters have similar median land sizes. 
+    However, the slightly tighter spread among adopters may indicate more consistency in land size among those who have adopted water harvesting practices.
     """)
 
     st.markdown("---")
