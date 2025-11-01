@@ -42,10 +42,8 @@ st.image(
 st.markdown("---")
 
 # ===========================
-# OBJECTIVE 1 DYNAMIC SUMMARY BOXES
+# OBJECTIVE 1: INTERACTIVE SUMMARY BOXES (No extra imports)
 # ===========================
-
-
 if not freehold_df.empty:
     st.subheader("📈 Interactive Summary Highlights for Objective 1")
 
@@ -62,51 +60,42 @@ if not freehold_df.empty:
     except:
         most_common_edu = "N/A"
 
-    # Gender ratio
+    # Gender ratio (simple percentage)
     male_count = (freehold_df["Gender of household head"] == 1).sum()
     female_count = (freehold_df["Gender of household head"] == 2).sum()
     total_gender = male_count + female_count
     male_ratio = (male_count / total_gender) * 100 if total_gender > 0 else 0
+    female_ratio = 100 - male_ratio if total_gender > 0 else 0
 
     # ---- Layout ----
     col1, col2, col3, col4 = st.columns(4)
 
-    # --- Column 1: Age ---
+    # --- Column 1: Average Age ---
     with col1:
         st.markdown("### 🧓 Average Age")
         st.metric(label="", value=f"{avg_age} yrs")
         st.progress(min(avg_age / 100, 1.0))
-        st.caption("Most household heads are middle-aged.")
+        st.caption("Most household heads are middle-aged (45–60 yrs).")
 
-    # --- Column 2: Land Size ---
+    # --- Column 2: Average Land Size ---
     with col2:
         st.markdown("### 🌾 Average Land Size")
         st.metric(label="", value=f"{avg_land} ha")
         st.progress(min(avg_land / 10, 1.0))
-        st.caption("Majority own small- to medium-sized plots.")
+        st.caption("Land sizes mostly below 2 hectares.")
 
-    # --- Column 3: Education ---
+    # --- Column 3: Education Level ---
     with col3:
-        st.markdown("### 🎓 Most Common Education")
+        st.markdown("### 🎓 Common Education Level")
         st.success(most_common_edu)
-        st.caption("Indicates education trend among household heads.")
+        st.caption("Most household heads have lower education levels.")
 
     # --- Column 4: Gender Ratio ---
     with col4:
-        st.markdown("### 👨 Gender of Household Head")
-        fig_gender = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=male_ratio,
-            gauge={'axis': {'range': [0, 100]},
-                   'bar': {'color': "#4CAF50"},
-                   'steps': [
-                       {'range': [0, 50], 'color': '#f9caca'},
-                       {'range': [50, 100], 'color': '#c8f7c5'}
-                   ]},
-            title={'text': "Male %"}
-        ))
-        fig_gender.update_layout(height=200, margin=dict(l=10, r=10, t=40, b=0))
-        st.plotly_chart(fig_gender, use_container_width=True)
+        st.markdown("### 👨‍🌾 Gender Distribution")
+        st.metric(label="Male Heads", value=f"{male_ratio:.1f}%")
+        st.progress(male_ratio / 100)
+        st.caption(f"Female Heads: {female_ratio:.1f}%")
 
 
 # --- Configuration ---
