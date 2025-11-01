@@ -36,6 +36,7 @@ freehold_df = load_data(DATA_URL)
 
 # --- Streamlit App Layout ---
 st.title("📊 Freehold Household Head Data Analysis")
+ st.header("🔬 Objective 1: Freehold Household Demographics")
 
 if freehold_df.empty:
     st.warning("Could not load data. Please check the URL and file format.")
