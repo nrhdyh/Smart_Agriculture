@@ -3,5 +3,3 @@ pandas
 numpy
 datetime
 plotly.express
-time
-plotly.graph_objects
