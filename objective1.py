@@ -43,9 +43,7 @@ if freehold_df.empty:
     st.warning("Could not load data. Please check the URL and file format.")
 else:
     st.markdown("""
-    This application visualizes key characteristics of freehold household heads, 
-    including age distribution, education level, relationship between age and land size, 
-    and household size distribution by gender.
+   The objective is to analyze the distribution of age and education levels among freehold household heads, examine the relationship between age and land size also explore the distribution of household size by gender of the household head.
     """)
     
     st.subheader("Raw Data Sample")
@@ -67,54 +65,53 @@ else:
     fig_age.update_layout(bargap=0.2)
     st.plotly_chart(fig_age, use_container_width=True)
     st.markdown("""
-    * **Explanation:** This histogram shows the frequency distribution of ages among household heads with freehold land tenure. It helps to understand the age profile of this group.
-    * **Key Insight:** Observe the most common age range and the overall spread of ages in the data.
+   The histogram for **“Distribution of Age among Freehold Household Heads”** shows how the ages of people who own freehold land are spread out. Most household heads are between age **45 and 60 years old** with the highest number around age **50 years old**. This means that freehold land is mostly owned by middle-aged individuals. The average (mean) and middle (median) ages are both around the age of **50 years**, showing that most data is centered in this range. The **first quartile (Q1)** is about **40 years** and the **third quartile (Q3)** is about **60 years** also giving an **interquartile range (IQR)** of around **20 years**. This tells that half of the household heads are between 40 and 60 years old. The chart also shows a few older owners above 70 years, but very few younger ones below 35. Overall, the data suggests that middle-aged people are the main holders of freehold land.
     """)
     
     st.markdown("---")
 
-    # 2. Distribution of Level of Education (Bar Chart)
-    st.subheader("2. Distribution of Level of Education among Freehold Household Heads")
-    education_labels = encoding_mapping.get('Level of education', [])
-    
-    # Ensure the column is treated as categorical for correct ordering if needed, or rely on Plotly's default count/order
-    fig_education = px.bar(
-        freehold_df, 
-        y='Level of education', 
-        title='Distribution of Level of Education among Freehold Household Heads', 
-        template=PLOTLY_TEMPLATE
-    )
-    
-    # Apply tick labels if the list is available
-    if education_labels:
-        # Assuming the education column in the DataFrame uses the numeric encoding 0, 1, 2, ...
-        # The original code's approach to tickvals/ticktext is a bit complex for Plotly Express on categorical data.
-        # It's often simpler to ensure the column has the correct string labels *before* plotting, 
-        # but sticking close to the original concept using numeric labels:
-        try:
-             # This attempts to reproduce the original logic which assumes the y-axis values are integers
-             # and maps them to the descriptive string labels.
-             education_levels_numeric = sorted(freehold_df['Level of education'].unique())
-             # Filter labels to only those present in the data
-             valid_labels = [education_labels[i] for i in education_levels_numeric if i < len(education_labels)]
-             
-             fig_education.update_layout(
-                 yaxis={'tickvals': education_levels_numeric, 
-                        'ticktext': valid_labels, 
-                        'categoryorder': 'array', 
-                        'categoryarray': education_levels_numeric}
-             )
-        except:
-             # Fallback if the data is not numerically encoded as expected
-             pass 
+   # 2. Distribution of Level of Education (Bar Chart)
+st.subheader("2. Distribution of Level of Education among Freehold Household Heads")
 
-    st.plotly_chart(fig_education, use_container_width=True)
-    st.markdown("""
-    * **Explanation:** This bar chart illustrates the count of freehold household heads at different levels of education. It provides insights into the educational background of this population.
-    * **Key Insight:** Identify which educational levels are most prevalent among freehold household heads.
-    """)
+education_labels = encoding_mapping.get('Level of education', [])
 
-    st.markdown("---")
+# Calculate percentage distribution for each education level
+education_counts = freehold_df['Level of education'].value_counts(normalize=True) * 100
+education_df = education_counts.reset_index()
+education_df.columns = ['Level of education', 'Percentage']
+
+# Convert numeric codes to descriptive labels if mapping available
+if education_labels:
+    try:
+        education_df['Level of education'] = education_df['Level of education'].astype(int)
+        education_df['Level of education'] = education_df['Level of education'].apply(
+            lambda x: education_labels[x] if x < len(education_labels) else str(x)
+        )
+    except:
+        pass
+
+# Create percentage bar chart
+fig_education = px.bar(
+    education_df,
+    x='Percentage',
+    y='Level of education',
+    orientation='h',  # horizontal bar for easier comparison
+    title='Distribution of Level of Education among Freehold Household Heads (Percentage)',
+    labels={'Percentage': 'Percentage (%)', 'Level of education': 'Education Level'},
+    template=PLOTLY_TEMPLATE,
+    text=education_df['Percentage'].round(1).astype(str) + '%'
+)
+
+fig_education.update_traces(textposition='outside')
+
+st.plotly_chart(fig_education, use_container_width=True)
+
+st.markdown("""
+* **Explanation:** This bar chart shows the percentage of freehold household heads by their level of education, giving a clearer view of the proportion of each education group.
+* **Key Insight:** Identify which education level is most common and how education is distributed among household heads.
+""")
+
+st.markdown("---")
 
     # 3. Relationship between Age and Land Size (Scatter Plot)
     st.subheader("3. Age vs. Land Size for Freehold Household Heads")
