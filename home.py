@@ -38,32 +38,42 @@ st.image(
 )
 
 st.markdown("---")
-
 # ===========================
-# OBJECTIVE 1: INTERACTIVE SUMMARY BOXES (No extra imports)
+# OBJECTIVE 1: INTERACTIVE SUMMARY BOXES
 # ===========================
 if not freehold_df.empty:
-    st.subheader("📈 Interactive Summary Highlights for Objective 1")
+    st.header("📊 Objective 1: Freehold Household Demographics")
+    st.markdown("""
+    Analyze the distribution of age, education, and land ownership among freehold household heads.
+    """)
 
-    # ---- Calculations ----
-    avg_age = round(freehold_df["Age"].mean(), 1)
-    avg_land = round(freehold_df["Land size"].mean(), 2)
-    avg_household = round(freehold_df["Household size"].mean(), 1)
+    st.subheader("📈 Interactive Summary Highlights")
+
+    # ---- Calculations with safety checks ----
+    avg_age = round(freehold_df["Age"].mean(), 1) if "Age" in freehold_df.columns else 0
+    avg_land = round(freehold_df["Land size"].mean(), 2) if "Land size" in freehold_df.columns else 0
+    avg_household = round(freehold_df["Household size"].mean(), 1) if "Household size" in freehold_df.columns else 0
 
     # Most common education
     edu_labels = ['No formal education', 'Primary school', 'Secondary school', 'College/University', 'Vocational']
-    try:
-        mode_edu_code = int(freehold_df["Level of education"].mode()[0])
-        most_common_edu = edu_labels[mode_edu_code] if mode_edu_code < len(edu_labels) else "Unknown"
-    except:
+    if "Level of education" in freehold_df.columns:
+        try:
+            mode_edu_code = int(freehold_df["Level of education"].mode()[0])
+            most_common_edu = edu_labels[mode_edu_code] if mode_edu_code < len(edu_labels) else "Unknown"
+        except:
+            most_common_edu = "N/A"
+    else:
         most_common_edu = "N/A"
 
     # Gender ratio (simple percentage)
-    male_count = (freehold_df["Gender of household head"] == 1).sum()
-    female_count = (freehold_df["Gender of household head"] == 2).sum()
-    total_gender = male_count + female_count
-    male_ratio = (male_count / total_gender) * 100 if total_gender > 0 else 0
-    female_ratio = 100 - male_ratio if total_gender > 0 else 0
+    if "Gender of household head" in freehold_df.columns:
+        male_count = (freehold_df["Gender of household head"] == 1).sum()
+        female_count = (freehold_df["Gender of household head"] == 2).sum()
+        total_gender = male_count + female_count
+        male_ratio = (male_count / total_gender) * 100 if total_gender > 0 else 0
+        female_ratio = 100 - male_ratio if total_gender > 0 else 0
+    else:
+        male_ratio, female_ratio = 0, 0
 
     # ---- Layout ----
     col1, col2, col3, col4 = st.columns(4)
@@ -95,13 +105,8 @@ if not freehold_df.empty:
         st.progress(male_ratio / 100)
         st.caption(f"Female Heads: {female_ratio:.1f}%")
 
-
-# --- Configuration ---
-st.set_page_config(
-    page_title="Freehold Household Head Data Analysis",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+else:
+    st.warning("⚠️ No data available. Please check the dataset URL or file format.")
 
 # Set the URL for the raw CSV data on GitHub
 DATA_URL = 'https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/refs/heads/main/freehold_data_on_Climate_Smart_Agriculture.csv'
