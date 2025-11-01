@@ -98,15 +98,6 @@ if not freehold_df.empty:
 
     st.markdown("---")
 
-    # --- Optional: Dataset Preview ---
-    with st.expander("📄 View Raw Dataset"):
-        st.dataframe(freehold_df.head())
-
-else:
-    st.warning("⚠️ Unable to load data. Please check the dataset URL or your connection.")
-
-
-
 # --- Configuration ---
 st.set_page_config(
     page_title="Freehold Household Head Data Analysis",
