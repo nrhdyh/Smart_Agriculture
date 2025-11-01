@@ -67,8 +67,11 @@ else:
     fig_age.update_layout(bargap=0.2)
     st.plotly_chart(fig_age, use_container_width=True)
     st.markdown("""
-    The histogram shows how the ages of freehold household heads are spread out. 
-    Most are between **45 and 60 years old**, meaning middle-aged individuals are the main landowners.
+   The histogram for **“Distribution of Age among Freehold Household Heads”** shows how the ages of people who own freehold land are spread out.
+   Most household heads are between age **45 and 60 years old** with the highest number around age **50 years old**. 
+   This means that freehold land is mostly owned by middle-aged individuals. The average (mean) and middle (median) ages are both around the age of **50 years**, showing that most data is centered in this range.
+   The **first quartile (Q1)** is about **40 years** and the **third quartile (Q3)** is about **60 years** also giving an **interquartile range (IQR)** of around **20 years**. 
+   This tells that half of the household heads are between 40 and 60 years old. The chart also shows a few older owners above 70 years, but very few younger ones below 35. Overall, the data suggests that middle-aged people are the main holders of freehold land.
     """)
 
     st.markdown("---")
