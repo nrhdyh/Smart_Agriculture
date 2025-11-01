@@ -49,6 +49,46 @@ else:
     perceptions of climate change by marital status, and the proportion of households with a land use plan.
     """)
 
+    # ===========================
+    # 📦 INTERACTIVE SUMMARY BOXES
+    # ===========================
+    st.subheader("📈 Key Highlights Summary")
+
+    # ---- Metrics Calculation ----
+    adoption_rate = (freehold_df['Water harvesting'].mean() * 100) if 'Water harvesting' in freehold_df.columns else 0
+    avg_land_size = round(freehold_df['Land size'].mean(), 2) if 'Land size' in freehold_df.columns else 0
+    high_perception_rate = ((freehold_df['Perception of climate change'] == 2).sum() / len(freehold_df) * 100) if 'Perception of climate change' in freehold_df.columns else 0
+    land_plan_rate = ((freehold_df['If household has a land use plan'] == 1).sum() / len(freehold_df) * 100) if 'If household has a land use plan' in freehold_df.columns else 0
+
+    # ---- Layout for 4 boxes ----
+    c1, c2, c3, c4 = st.columns(4)
+
+    with c1:
+        st.markdown("### 💧 Water Harvesting Adoption")
+        st.metric(label="Adoption Rate", value=f"{adoption_rate:.1f}%")
+        st.progress(adoption_rate / 100)
+        st.caption("Reflects the percentage of households that adopted water harvesting practices.")
+
+    with c2:
+        st.markdown("### 🌳 Average Land Size")
+        st.metric(label="Mean Land Size", value=f"{avg_land_size} ha")
+        st.progress(min(avg_land_size / 10, 1.0))
+        st.caption("Represents the average size of land owned across all households.")
+
+    with c3:
+        st.markdown("### ☀️ High Climate Change Awareness")
+        st.metric(label="High Perception", value=f"{high_perception_rate:.1f}%")
+        st.progress(high_perception_rate / 100)
+        st.caption("Shows the percentage of households with high climate change awareness.")
+
+    with c4:
+        st.markdown("### 🗺️ Land Use Planning")
+        st.metric(label="Households with Plan", value=f"{land_plan_rate:.1f}%")
+        st.progress(land_plan_rate / 100)
+        st.caption("Percentage of households that have developed a land use plan.")
+
+    st.markdown("---")
+
     st.subheader("Raw Data Sample")
     st.dataframe(freehold_df.head())
     st.markdown("---")
