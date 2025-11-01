@@ -108,7 +108,7 @@ if not freehold_df.empty:
     with col4:
         st.markdown("### 👨‍🌾 Gender Distribution")
 
-        if "ï»¿Gender of household head" in freehold_df.columns:
+        if "Gender of household head" in freehold_df.columns:
             gender_col = freehold_df["Gender of household head"]
 
             # Dataset uses 0 = Male, 1 = Female
