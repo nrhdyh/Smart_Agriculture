@@ -81,37 +81,45 @@ else:
 
     st.plotly_chart(fig_edu_water, use_container_width=True)
     st.markdown("""
-    * **Explanation:** This grouped bar chart visualizes the adoption of water harvesting practices, segmented by the household head's level of education.
-    * **Key Insight:** Understand the correlation between higher education levels and the prevalence of water harvesting as a climate-smart agriculture practice in this group.
+    The bar chart shows the relationship between education level and the adoption of water harvesting. 
+    The chart can be seen as that people with no formal education have the highest number of adopters and followed by those with primary education. 
+    In contrast, the number of adopters decreases as the level of education increases with the lowest adoption seen among individuals with secondary and college or university education. 
+    This suggests that people with lower levels of education are more likely to adopt water harvesting practices because they rely more on traditional or self-sufficient methods for water use.
     """)
 
     st.markdown("---")
 
-    # 2. Relationship between Land Size and Agroforestry Levels (Scatter Plot)
-    st.subheader("2. Land Size vs. Agroforestry Levels")
-    
-    agroforestry_labels = encoding_mapping['Agroforestry']
-    
-    fig_land_agro = px.scatter(
-        freehold_df, 
-        x='Land size', 
-        y='Agroforestry',
-        title='Land Size vs. Agroforestry Levels',
-        template=PLOTLY_TEMPLATE
-    )
-    
-    # Apply custom labels for the y-axis (Agroforestry level)
-    fig_land_agro.update_layout(
-        yaxis={'tickvals': list(range(len(agroforestry_labels))), 'ticktext': agroforestry_labels}
-    )
-    
-    st.plotly_chart(fig_land_agro, use_container_width=True)
-    st.markdown("""
-    * **Explanation:** This scatter plot explores the relationship between the **size of the land** and the **level of agroforestry** practiced by the household.
-    * **Key Insight:** Look for any trends indicating whether larger or smaller land sizes are associated with higher or lower levels of agroforestry adoption.
-    """)
+   # 2. Relationship between Land Size and Agroforestry Levels (Box Plot)
+st.subheader("2. Land Size vs. Agroforestry Levels")
 
-    st.markdown("---")
+agroforestry_labels = encoding_mapping['Agroforestry']
+
+# Create a box plot instead of a scatter plot
+fig_land_agro = px.box(
+    freehold_df,
+    x='Agroforestry',
+    y='Land size',
+    title='Land Size vs. Agroforestry Levels',
+    template=PLOTLY_TEMPLATE,
+    points='all',  # Shows individual data points overlaid on the box
+)
+
+# Apply custom labels for the x-axis (Agroforestry level)
+fig_land_agro.update_layout(
+    xaxis={'tickvals': list(range(len(agroforestry_labels))), 'ticktext': agroforestry_labels},
+    yaxis_title="Land Size",
+    xaxis_title="Agroforestry Level"
+)
+
+st.plotly_chart(fig_land_agro, use_container_width=True)
+
+st.markdown("""
+* **Explanation:** This box plot shows the distribution of **land sizes** across different **agroforestry levels**.
+* **Interpretation:** Each box represents the spread of land sizes within a specific agroforestry level, with points showing individual households.
+* **Key Insight:** Look for differences in median and spread to see if households with larger lands tend to practice more agroforestry.
+""")
+
+st.markdown("---")
 
 
     # 3. Distribution of Perception of Climate Change by Marital Status (Grouped Bar Chart)
@@ -140,8 +148,10 @@ else:
 
     st.plotly_chart(fig_marital_perception, use_container_width=True)
     st.markdown("""
-    * **Explanation:** This grouped bar chart shows the distribution of different **perceptions of climate change** across various **marital status** groups.
-    * **Key Insight:** Identify if the marital status of the household head correlates with a higher or lower perception of climate change.
+    The bar chart shows how the individuals perception of climate change differs based on their marital status. 
+    It can be seen that single individuals make up most of the respondents and have both high and low levels of perception about climate change while only a few have a medium level of perception. 
+    In contrast, married individuals are fewer in number and generally show lower levels of perception, with very few having a high perception.
+    Overall, this suggests that single individuals tend to be more aware or concerned about climate change compared to married individuals.
     """)
 
     st.markdown("---")
@@ -171,9 +181,12 @@ else:
 
     st.plotly_chart(fig_land_use_plan, use_container_width=True)
     st.markdown("""
-    * **Explanation:** This pie chart shows the proportion of freehold households that currently **have a land use plan** compared to those who do not.
-    * **Key Insight:** Understand the extent to which strategic land planning has been adopted by this group.
+    This pie chart shows the percentage of households that have a land use plan and those that has not. 
+    The majority of households of **77.8%**, do not have any land use plan, while only **22.2%** have one. 
+    This means that most households are not planning or organizing how their land is used. 
+    The chart makes it clear that only a small portion of households are taking steps to manage their land properly. 
+    This could mean that many people may not be aware of the benefits of land planning or may not have the resources to do it.
+    Overall, the chart highlights a need for more support or awareness to help households create land use plans.
     """)
     
     st.markdown("---")
-    st.info("End of Visualization Dashboard for Objective 2.")
