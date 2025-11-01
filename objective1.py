@@ -118,11 +118,10 @@ else:
     st.plotly_chart(fig_education, use_container_width=True)
 
     st.markdown("""
-    **Explanation:**  
-    This bar chart shows the **percentage** of freehold household heads at each level of education.
-
-    **Key Insight:**  
-    It highlights the most common education level among freehold household heads.
+    The chart shows that most freehold household heads are from low levels of education. 
+    Over half (55.1%) have no formal education while about 1/3 (32.3%) completed only the primary school. 
+    A smaller group (7.3%) reached secondary school and just minor (5.4%) have college or university education. 
+    This indicates that the majority of household heads have limited educational attainment with very few achieving higher education levels.
     """)
 
     st.markdown("---")
@@ -142,11 +141,11 @@ else:
     st.plotly_chart(fig_age_land, use_container_width=True)
 
     st.markdown("""
-    **Explanation:**  
-    This scatter plot visualizes the relationship between the **age** of household heads and the **size of their land**.  
-
-    **Key Insight:**  
-    Look for any trend or pattern that may suggest older household heads tend to own larger lands.
+   The scatter plot shows the relationship between the age of freehold household heads and the size of their owned land. 
+   Overall, there is no clear correlation between age and land size. 
+   Most household heads, regardless of age own relatively small plots of land, typically below 2 units in size. 
+   A few outliers can be seen where some individuals at mostly in their 30s to 60s that own larger plots but these cases are rare. 
+   This suggests that land ownership size does not strongly depend on age among freehold household heads.
     """)
 
     st.markdown("---")
@@ -189,12 +188,10 @@ else:
     st.plotly_chart(fig_household_gender, use_container_width=True)
 
     st.markdown("""
-    **Explanation:**  
-    This grouped bar chart shows household sizes based on gender of the household head.  
-
-    **Key Insight:**  
-    Compare typical household sizes between male- and female-headed households.
+   The chart shows the distribution of household sizes by the gender of household heads and the overall the **male-headed households** are more common across all household sizes compared to female-headed ones. 
+   Most households have **4 to 6 members**, with male-headed households peaking around these sizes. 
+   Female-headed households are fewer and show a more even spread across smaller and medium household sizes. 
+   This suggests that **men are more likely to head larger households** while the **women tend to lead smaller households**.
     """)
 
     st.markdown("---")
-    st.info("✅ End of Visualization Dashboard.")
