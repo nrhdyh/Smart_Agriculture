@@ -52,7 +52,7 @@ else:
     # ===========================
     # 📦 INTERACTIVE SUMMARY BOXES
     # ===========================
-    st.subheader("📈 Key Highlights Summary")
+    st.subheader("📈 Summary Highlights")
 
     # ---- Metrics Calculation ----
     adoption_rate = (freehold_df['Water harvesting'].mean() * 100) if 'Water harvesting' in freehold_df.columns else 0
