@@ -41,33 +41,37 @@ st.image(
 st.markdown("---")
 
 # ===========================
-# SUMMARY STATISTICS
+# OBJECTIVE 1 SUMMARY BOXES (MATCH VISUALS)
 # ===========================
 if not freehold_df.empty:
-    st.subheader("🌱 Key Summary Statistics")
+    st.subheader("📈 Summary Highlights for Objective 1")
 
-    # --- Helper Functions ---
-    def safe_mean(df, col):
-        return df[col].mean() if col in df.columns else 0
+    avg_age = round(freehold_df["Age"].mean(), 1) if "Age" in freehold_df else 0
+    avg_land = round(freehold_df["Land size"].mean(), 2) if "Land size" in freehold_df else 0
+    avg_household = round(freehold_df["Household size"].mean(), 1) if "Household size" in freehold_df else 0
 
-    def safe_percentage(df, col, value):
-        if col in df.columns:
-            return df[col].value_counts(normalize=True).get(value, 0) * 100
-        return 0
+    if "Level of education" in freehold_df:
+        mode_edu_code = freehold_df["Level of education"].mode()[0]
+        edu_labels = ['No formal education', 'Primary school', 'Secondary school', 'College/University', 'Vocational']
+        most_common_edu = edu_labels[int(mode_edu_code)] if mode_edu_code < len(edu_labels) else "Unknown"
+    else:
+        most_common_edu = "N/A"
 
-    # --- Metrics ---
-    water_adoption = safe_percentage(freehold_df, 'Water harvesting', 1)
-    avg_land_size = safe_mean(freehold_df, 'Land size')
-    training_rate = safe_percentage(freehold_df, 'Access to training', 1)
-    high_perception = safe_percentage(freehold_df, 'Perception of climate change', 2)
+    if "Gender of household head" in freehold_df:
+        male_count = (freehold_df["Gender of household head"] == 1).sum()
+        female_count = (freehold_df["Gender of household head"] == 2).sum()
+        if male_count + female_count > 0:
+            male_ratio = (male_count / (male_count + female_count)) * 100
+        else:
+            male_ratio = 0
+    else:
+        male_ratio = 0
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("💧 CSA Adoption", f"{water_adoption:.1f}%", "Water Harvesting")
-    col2.metric("🌾 Avg Land Size", f"{avg_land_size:.2f}", "Hectares")
-    col3.metric("🎓 Training Rate", f"{training_rate:.1f}%", "Participation")
-    col4.metric("🌍 High Awareness", f"{high_perception:.1f}%", "Climate Change")
-
-    st.markdown("---")
+    col1.metric("🧓 Average Age", f"{avg_age} yrs")
+    col2.metric("🌾 Average Land Size", f"{avg_land} ha")
+    col3.metric("🎓 Most Common Education", most_common_edu)
+    col4.metric("👨 Male Household Heads", f"{male_ratio:.1f}%")
 
 # --- Configuration ---
 st.set_page_config(
