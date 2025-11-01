@@ -29,7 +29,7 @@ st.title("🌿 Climate Smart Agriculture Dashboard")
 
 
 st.image(
-    "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/main/sustainable-agriculture.jpg"
+    "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/main/The-Applications-of-Drones-in-the-Agriculture-Industry-2-1024x536.jpg"
 )
 st.markdown("""
 ### 📊 Dashboard Overview
