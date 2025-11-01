@@ -78,6 +78,49 @@ else:
     Finally, the **Correlation Heatmap** identifies strong relationships between education, land size, and adoption of climate-smart practices, providing insights into the socio-economic and environmental factors driving agricultural resilience.
     """)
 
+     # =========================================================
+    # 📊 INTERACTIVE SUMMARY BOXES — Objective 3 Highlights
+    # =========================================================
+    st.subheader("📈 Key Highlights Summary")
+
+    try:
+        # Metrics
+        avg_land_size = round(freehold_df['Land size'].mean(), 2)
+        adoption_rate = (freehold_df['Water harvesting'].mean() * 100)
+        member_rate = (freehold_df['Membership to community organization/Group'].mean() * 100)
+        improved_soil = (freehold_df['Trend in soil condition'].eq(2).sum() / len(freehold_df)) * 100
+
+        c1, c2, c3, c4 = st.columns(4)
+
+        with c1:
+            st.markdown("### 🌾 Average Land Size")
+            st.metric(label="Mean (ha)", value=f"{avg_land_size}")
+            st.progress(min(avg_land_size / 10, 1))
+            st.caption("Shows the typical size of land owned among households.")
+
+        with c2:
+            st.markdown("### 💧 Water Harvesting Adoption")
+            st.metric(label="Adoption Rate", value=f"{adoption_rate:.1f}%")
+            st.progress(adoption_rate / 100)
+            st.caption("Proportion of households implementing water harvesting.")
+
+        with c3:
+            st.markdown("### 👥 Community Membership")
+            st.metric(label="Membership Rate", value=f"{member_rate:.1f}%")
+            st.progress(member_rate / 100)
+            st.caption("Percentage of respondents belonging to a community organization.")
+
+        with c4:
+            st.markdown("### 🌱 Improved Soil Condition")
+            st.metric(label="Improvement Rate", value=f"{improved_soil:.1f}%")
+            st.progress(improved_soil / 100)
+            st.caption("Proportion of households reporting better soil condition.")
+    except Exception as e:
+        st.error(f"Error generating summary metrics: {e}")
+
+    st.markdown("---")
+
+
     st.subheader("Raw Data Sample")
     st.dataframe(freehold_df.head())
 
