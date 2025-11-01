@@ -77,7 +77,6 @@ if freehold_df.empty:
 else:
     # --- Objective 3 Visualizations ---
     st.header("🔗 Objective 3: Deeper Correlations and Status Quo")
-st.header("🔬 Objective 1: Freehold Household Demographics")
 
 if freehold_df.empty:
     st.warning("Could not load data. Please check the URL and file format.")
@@ -94,29 +93,33 @@ else:
     st.subheader("Raw Data Sample")
     st.dataframe(freehold_df.head())
 # -------------------------
-    # 1. Relationship between Land Size and Water Harvesting Adoption (Scatter Plot)
-    st.subheader("1. Land Size vs. Water Harvesting Adoption")
-    
-    water_harvesting_col = 'Water harvesting'
-    
-    fig_land_water = px.scatter(
-        freehold_df, 
-        x='Land size', 
-        y=water_harvesting_col,
-        title='Land Size vs. Water Harvesting Adoption',
-        template=PLOTLY_TEMPLATE
-    )
-    
-    # Apply custom labels for the Y-axis (Water Harvesting)
-    map_numeric_axis(fig_land_water, 'yaxis', water_harvesting_col)
+# 1. Relationship between Land Size and Water Harvesting Adoption (Box Plot)
+st.subheader("1. Land Size vs. Water Harvesting Adoption")
 
-    st.plotly_chart(fig_land_water, use_container_width=True)
-    st.markdown("""
-    * **Explanation:** This scatter plot visualizes the relationship between the **size of land** owned by household heads and whether they have **adopted water harvesting** practices.
-    * **Key Insight:** Investigate if land size plays a role in the adoption of water harvesting (e.g., are larger farms more likely to adopt?).
-    """)
+water_harvesting_col = 'Water harvesting'
 
-    st.markdown("---")
+# Create Box Plot
+fig_land_water = px.box(
+    freehold_df,
+    x=water_harvesting_col,
+    y='Land size',
+    title='Land Size vs. Water Harvesting Adoption',
+    template=PLOTLY_TEMPLATE,
+    points='all'  # show individual data points for visibility
+)
+
+# Apply custom labels for the X-axis (Water Harvesting)
+map_numeric_axis(fig_land_water, 'xaxis', water_harvesting_col)
+
+st.plotly_chart(fig_land_water, use_container_width=True)
+
+st.markdown("""
+* **Explanation:** This box plot compares the **distribution of land sizes** between households that **adopted water harvesting** and those that did not.
+* **Key Insight:** This helps you see if **larger landowners are more likely to adopt** water harvesting — look for differences in the median or spread of land size.
+""")
+
+st.markdown("---")
+
 
     # 2. Access to Training by Membership to Community Organization (Grouped Bar Chart)
     st.subheader("2. Access to Training by Membership to Community Organization")
@@ -147,10 +150,11 @@ else:
 
     st.plotly_chart(fig_membership_training, use_container_width=True)
     st.markdown("""
-    * **Explanation:** This grouped bar chart illustrates the **access to training** among freehold households, categorized by whether they are **members of a community organization**.
-    * **Key Insight:** Examine if membership in community organizations is associated with increased access to training, suggesting organizations serve as a knowledge-sharing channel.
-    """)
-
+    This bar chart shows the relationship between access to training and membership in a community organization. 
+    It reveals that people who are **not members** of any community organization mostly **do not have access to training** with a much larger number lacking access compared to those who receive it. 
+    Meanwhile, those who **are members** still have more people without access rather than with access but the difference is small. 
+    This suggests that being part of a community organization improves the chances of receiving training although many members still miss out, showing there is room for better training to outreach even within organized groups.
+  """)
     st.markdown("---")
 
     # 3. Distribution of Trend in Soil Condition (Pie Chart)
@@ -176,8 +180,11 @@ else:
 
     st.plotly_chart(fig_soil_condition, use_container_width=True)
     st.markdown("""
-    * **Explanation:** This pie chart shows the proportion of freehold households reporting different **trends in soil condition** (e.g., deteriorated, not changed, improved).
-    * **Key Insight:** Understand the general perception of **soil health trends** within this population, which can indicate the long-term impact of farming practices.
+    The pie chart is divided into three categories that represent how soil conditions have changed over time: **Deteriorated**, **Not Changed**, and **Improved**. 
+    The largest portion, making up to **43.4%** that indicates that nearly half of the freehold households have experienced a **deterioration in soil condition** and suggesting worsening soil health or quality. 
+    Meanwhile, up to **35.8%** of households reported that their soil condition has **not changed**, implying stability but no improvement in soil quality. 
+    The smallest segment are **20.9%**, represents households where the soil condition has **improved** that has been showing some success in soil management or restoration practices. 
+    Overall, the visualization highlights a concerning trend where deterioration outweighs improvement, underscoring the need for stronger soil conservation and management strategies among freehold households.
     """)
 
     st.markdown("---")
@@ -218,12 +225,13 @@ else:
 
         st.plotly_chart(fig_heatmap, use_container_width=True)
         st.markdown("""
-        * **Explanation:** This **Heatmap** displays the Pearson correlation coefficients between all pairs of selected numerical and encoded categorical variables.
-        * **Key Insight:** Look for values close to **+1** (strong positive correlation) or **-1** (strong negative correlation) to identify key relationships in the data. For example, a high positive correlation between 'Agroforestry' and 'Water harvesting' would suggest they are adopted together. 
+        This visualization is a **correlation heatmap** that displays the relationships among various selected variables such as age, household size, land size, education level, income, and several agricultural and environmental practices. 
+        The color scale on the right indicates the **strength and direction of the correlation coefficient** while the darker blue tones represent stronger positive correlations (closer to +1), lighter tones indicate weaker or near to zero correlations and very light areas may suggest negative or no relationships. 
+        Each square in the grid represents how strongly two variables are related and for instance, variables like **income and education level** or **agroforestry and perception of climate change** appear to show moderately positive associations as for suggested by slightly darker blue shades. 
+        Meanwhile, most other relationships display lighter blue colors are indicating to  weak correlations. 
         """)
         
     except Exception as e:
         st.error(f"Could not generate Correlation Heatmap. Check column names and data types: {e}")
 
     st.markdown("---")
-    st.success("✅ Dashboard Complete: All objectives visualized.")
