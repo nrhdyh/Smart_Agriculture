@@ -54,7 +54,7 @@ if not freehold_df.empty:
     avg_land = round(freehold_df["Land size"].mean(), 2) if "Land size" in freehold_df.columns else 0
     avg_household = round(freehold_df["Household size"].mean(), 1) if "Household size" in freehold_df.columns else 0
 
-    # Most common education
+    # --- Most Common Education ---
     edu_labels = ['No formal education', 'Primary school', 'Secondary school', 'College/University', 'Vocational']
     if "Level of education" in freehold_df.columns:
         try:
@@ -65,15 +65,21 @@ if not freehold_df.empty:
     else:
         most_common_edu = "N/A"
 
-    # Gender ratio (simple percentage)
+    # --- Gender Ratio ---
     if "Gender of household head" in freehold_df.columns:
-        male_count = (freehold_df["Gender of household head"] == 1).sum()
-        female_count = (freehold_df["Gender of household head"] == 2).sum()
+        gender_col = freehold_df["Gender of household head"].astype(str).str.lower()
+
+        male_count = gender_col[gender_col.str.contains("1|male")].count()
+        female_count = gender_col[gender_col.str.contains("2|female")].count()
         total_gender = male_count + female_count
-        male_ratio = (male_count / total_gender) * 100 if total_gender > 0 else 0
-        female_ratio = 100 - male_ratio if total_gender > 0 else 0
+
+        if total_gender > 0:
+            male_ratio = (male_count / total_gender) * 100
+            female_ratio = 100 - male_ratio
+        else:
+            male_ratio, female_ratio = 0, 0
     else:
-        male_ratio, female_ratio = 0, 0
+        male_ratio, female_ratio, total_gender, female_count = 0, 0, 0, 0
 
     # ---- Layout ----
     col1, col2, col3, col4 = st.columns(4)
@@ -98,27 +104,9 @@ if not freehold_df.empty:
         st.success(most_common_edu)
         st.caption("Most household heads have lower education levels.")
 
-        # --- Column 4: Gender Ratio ---
+    # --- Column 4: Gender Ratio ---
     with col4:
         st.markdown("### 👨‍🌾 Gender Distribution")
-
-        # Handle both numeric and text gender values
-        if "Gender of household head" in freehold_df.columns:
-            gender_col = freehold_df["Gender of household head"].astype(str).str.lower()
-
-            male_count = gender_col[gender_col.str.contains("1|male")].count()
-            female_count = gender_col[gender_col.str.contains("2|female")].count()
-            total_gender = male_count + female_count
-
-            if total_gender > 0:
-                male_ratio = (male_count / total_gender) * 100
-                female_ratio = 100 - male_ratio
-            else:
-                male_ratio, female_ratio = 0, 0
-        else:
-            male_ratio, female_ratio = 0, 0
-
-        # Display metrics dynamically
         st.metric(label="Male Heads", value=f"{male_ratio:.1f}%")
         st.progress(male_ratio / 100)
 
@@ -127,13 +115,13 @@ if not freehold_df.empty:
         else:
             st.caption("No gender data available.")
 
-
 else:
     st.warning("⚠️ No data available. Please check the dataset URL or file format.")
 
-# Set the URL for the raw CSV data on GitHub
+# --- Data URL and Template ---
 DATA_URL = 'https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/refs/heads/main/freehold_data_on_Climate_Smart_Agriculture.csv'
-PLOTLY_TEMPLATE = 'plotly_dark'  # Dark theme
+PLOTLY_TEMPLATE = 'plotly_dark'
+
 
 # Define encoding mapping
 encoding_mapping = {
