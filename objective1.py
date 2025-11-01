@@ -77,12 +77,17 @@ st.subheader("2. Distribution of Level of Education among Freehold Household Hea
 
 education_labels = encoding_mapping.get('Level of education', [])
 
-# Calculate percentage distribution for each education level
-education_counts = freehold_df['Level of education'].value_counts(normalize=True) * 100
-education_df = education_counts.reset_index()
-education_df.columns = ['Level of education', 'Percentage']
+# --- Calculate percentage distribution ---
+education_counts = freehold_df['Level of education'].value_counts()
+education_percent = (education_counts / education_counts.sum()) * 100
 
-# Convert numeric codes to descriptive labels if mapping available
+# Convert to DataFrame
+education_df = pd.DataFrame({
+    'Level of education': education_percent.index,
+    'Percentage': education_percent.values
+})
+
+# --- Replace numeric codes with labels (if mapping exists) ---
 if education_labels:
     try:
         education_df['Level of education'] = education_df['Level of education'].astype(int)
@@ -92,28 +97,30 @@ if education_labels:
     except:
         pass
 
-# Create percentage bar chart
+# --- Create percentage bar chart ---
 fig_education = px.bar(
     education_df,
     x='Percentage',
     y='Level of education',
-    orientation='h',  # horizontal bar for easier comparison
+    orientation='h',
     title='Distribution of Level of Education among Freehold Household Heads (Percentage)',
     labels={'Percentage': 'Percentage (%)', 'Level of education': 'Education Level'},
-    template=PLOTLY_TEMPLATE,
-    text=education_df['Percentage'].round(1).astype(str) + '%'
+    text=education_df['Percentage'].round(1).astype(str) + '%',
+    template=PLOTLY_TEMPLATE
 )
 
 fig_education.update_traces(textposition='outside')
 
 st.plotly_chart(fig_education, use_container_width=True)
 
+# --- Explanation text ---
 st.markdown("""
-* **Explanation:** This bar chart shows the percentage of freehold household heads by their level of education, giving a clearer view of the proportion of each education group.
-* **Key Insight:** Identify which education level is most common and how education is distributed among household heads.
+* **Explanation:** This bar chart shows the **percentage** of freehold household heads at each education level, making it easier to compare proportions across groups.
+* **Key Insight:** Observe which education level has the highest proportion among freehold household heads.
 """)
 
 st.markdown("---")
+
 
     # 3. Relationship between Age and Land Size (Scatter Plot)
     st.subheader("3. Age vs. Land Size for Freehold Household Heads")
