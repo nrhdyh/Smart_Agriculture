@@ -29,72 +29,43 @@ st.title("🌿 Climate Smart Agriculture Dashboard")
 
 st.markdown("""
 ### 📊 Dashboard Overview
-- **Objective 1:** Explore education, demographics, and training participation.  
-- **Objective 2:** Analyze land ownership, land size, and economic patterns.  
-- **Objective 3:** Understand adoption of CSA practices and climate change perceptions.
+- **Objective 1:** Freehold Household Demographics  
+- **Objective 2:** Climate-Smart Agriculture Insights
+- **Objective 3:** Deeper Correlations and Status Quo
 """)
 
 st.image(
-    "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/main/sustainable-agriculture.jpg",
-    caption="Sustainable Agriculture in Practice 🌾"
+    "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/main/sustainable-agriculture.jpg"
 )
 
 st.markdown("---")
 
 # ===========================
-# SUMMARY STATISTICS SECTION
+# SUMMARY STATISTICS
 # ===========================
 if not freehold_df.empty:
     st.subheader("🌱 Key Summary Statistics")
 
     # --- Helper Functions ---
     def safe_mean(df, col):
-        """Safely calculate mean for numeric columns"""
         return df[col].mean() if col in df.columns else 0
 
     def safe_percentage(df, col, value):
-        """Safely calculate percentage of a given value"""
         if col in df.columns:
             return df[col].value_counts(normalize=True).get(value, 0) * 100
         return 0
 
-    # --- Metric Calculations ---
+    # --- Metrics ---
     water_adoption = safe_percentage(freehold_df, 'Water harvesting', 1)
     avg_land_size = safe_mean(freehold_df, 'Land size')
     training_rate = safe_percentage(freehold_df, 'Access to training', 1)
     high_perception = safe_percentage(freehold_df, 'Perception of climate change', 2)
 
-    # --- Display Metrics in 4 Columns ---
     col1, col2, col3, col4 = st.columns(4)
-
-    col1.metric(
-        label="💧 CSA Adoption (Water Harvesting)",
-        value=f"{water_adoption:.1f}%",
-        help="Percentage of households that adopted water harvesting practices.",
-        delta="Target Practice",
-        delta_color="normal"
-    )
-    col2.metric(
-        label="🌾 Average Farm Size",
-        value=f"{avg_land_size:.2f}",
-        help="Mean size of agricultural land (in Hectares).",
-        delta="Hectares",
-        delta_color="off"
-    )
-    col3.metric(
-        label="🎓 Training Participation Rate",
-        value=f"{training_rate:.1f}%",
-        help="Percentage of households that participated in agricultural training programs.",
-        delta="Training",
-        delta_color="normal"
-    )
-    col4.metric(
-        label="🌍 High Climate Change Perception",
-        value=f"{high_perception:.1f}%",
-        help="Percentage of households with high awareness of climate change.",
-        delta="Awareness",
-        delta_color="normal"
-    )
+    col1.metric("💧 CSA Adoption", f"{water_adoption:.1f}%", "Water Harvesting")
+    col2.metric("🌾 Avg Land Size", f"{avg_land_size:.2f}", "Hectares")
+    col3.metric("🎓 Training Rate", f"{training_rate:.1f}%", "Participation")
+    col4.metric("🌍 High Awareness", f"{high_perception:.1f}%", "Climate Change")
 
     st.markdown("---")
 
