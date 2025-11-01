@@ -79,7 +79,10 @@ else:
 
     st.plotly_chart(fig_edu_water, use_container_width=True)
     st.markdown("""
-    People with lower education levels tend to adopt water harvesting more, likely due to reliance on traditional or self-sufficient practices.
+    The bar chart shows the relationship between education level and the adoption of water harvesting. 
+    The chart can be seen as that people with no formal education have the highest number of adopters and followed by those with primary education. 
+    In contrast, the number of adopters decreases as the level of education increases with the lowest adoption seen among individuals with secondary and college or university education. 
+    This suggests that people with lower levels of education are more likely to adopt water harvesting practices because they rely more on traditional or self-sufficient methods for water use.
     """)
     st.markdown("---")
 
@@ -105,7 +108,10 @@ else:
 
     st.plotly_chart(fig_land_agro, use_container_width=True)
     st.markdown("""
-    Larger landholders often engage more in agroforestry, showing a link between land size and sustainable practice levels.
+    This box plot compares the land sizes of households based on their level of agroforestry practice and their categorized into “None” and “Low.” 
+    The chart shows that both groups have a similar median land size, meaning the typical amount of land owned is almost the same whether a household practices low-level agroforestry or none at all. 
+    However, the spread of land sizes is wider for the “None” group with several households owning significantly larger plots as shown by the outliers above the main box. 
+    Overall, the visualization suggests that land size alone does not strongly influence whether a household adopts agroforestry, as both small and large land owners can be found in either category.
     """)
     st.markdown("---")
 
@@ -135,7 +141,10 @@ else:
 
     st.plotly_chart(fig_marital_perception, use_container_width=True)
     st.markdown("""
-    Single individuals tend to show higher awareness of climate change compared to married ones.
+    The bar chart shows how the individuals perception of climate change differs based on their marital status. 
+    It can be seen that single individuals make up most of the respondents and have both high and low levels of perception about climate change while only a few have a medium level of perception. 
+    In contrast, married individuals are fewer in number and generally show lower levels of perception, with very few having a high perception. 
+    Overall, this suggests that single individuals tend to be more aware or concerned about climate change compared to married individuals.
     """)
     st.markdown("---")
 
@@ -158,6 +167,11 @@ else:
 
     st.plotly_chart(fig_land_use_plan, use_container_width=True)
     st.markdown("""
-    Most households (around 78%) lack a land use plan, showing low adoption of structured land management.
+    This pie chart shows the percentage of households that have a land use plan and those that has not. 
+    The majority of households of **77.8%**, do not have any land use plan, while only **22.2%** have one. 
+    This means that most households are not planning or organizing how their land is used. 
+    The chart makes it clear that only a small portion of households are taking steps to manage their land properly. 
+    This could mean that many people may not be aware of the benefits of land planning or may not have the resources to do it. 
+    Overall, the chart highlights a need for more support or awareness to help households create land use plans.
     """)
     st.markdown("---")
