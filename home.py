@@ -47,7 +47,7 @@ if not freehold_df.empty:
     Analyze the distribution of age, education, and land ownership among freehold household heads.
     """)
 
-    st.subheader("📈 Interactive Summary Highlights")
+    st.subheader("📈 Summary Highlights")
 
     # ---- Calculations with safety checks ----
     avg_age = round(freehold_df["Age"].mean(), 1) if "Age" in freehold_df.columns else 0
