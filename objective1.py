@@ -43,7 +43,9 @@ if freehold_df.empty:
     st.warning("Could not load data. Please check the URL and file format.")
 else:
     st.markdown("""
-   The objective is to analyze the distribution of age and education levels among freehold household heads, examine the relationship between age and land size also explore the distribution of household size by gender of the household head.
+   The objective is to analyze the distribution of age and education levels among freehold household heads, 
+   examine the relationship between age and land size 
+   also explore the distribution of household size by gender of the household head.
     """)
     
     st.subheader("Raw Data Sample")
