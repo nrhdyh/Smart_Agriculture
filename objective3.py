@@ -77,7 +77,23 @@ if freehold_df.empty:
 else:
     # --- Objective 3 Visualizations ---
     st.header("🔗 Objective 3: Deeper Correlations and Status Quo")
+st.header("🔬 Objective 1: Freehold Household Demographics")
 
+if freehold_df.empty:
+    st.warning("Could not load data. Please check the URL and file format.")
+else:
+    st.markdown("""
+    This analysis explores key aspects of sustainable agricultural practices among freehold households. 
+    The **Land Size vs. Water Harvesting Adoption** visualization highlights how larger landholders are more likely to adopt water harvesting techniques, indicating resource capacity influences sustainability choices. 
+    **Access to Training by Membership to Community Organizations** shows that members of community groups have significantly greater access to agricultural training, emphasizing the role of social networks in knowledge dissemination. 
+    The **Distribution of Soil Condition Trends** reveals varying soil quality trends, suggesting differences in land management practices. 
+    Finally, the **Correlation Heatmap** identifies strong relationships between education, land size, and adoption of climate-smart practices, providing insights into the socio-economic and environmental factors driving agricultural resilience.
+
+    """)
+
+    st.subheader("Raw Data Sample")
+    st.dataframe(freehold_df.head())
+# -------------------------
     # 1. Relationship between Land Size and Water Harvesting Adoption (Scatter Plot)
     st.subheader("1. Land Size vs. Water Harvesting Adoption")
     
