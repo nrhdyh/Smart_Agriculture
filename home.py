@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-
+import time
+import plotly.graph_objects as go
 # ===========================
 # LOAD DATA DIRECTLY FROM GITHUB
 # ===========================
@@ -41,37 +42,72 @@ st.image(
 st.markdown("---")
 
 # ===========================
-# OBJECTIVE 1 SUMMARY BOXES (MATCH VISUALS)
+# OBJECTIVE 1 DYNAMIC SUMMARY BOXES
 # ===========================
+
+
 if not freehold_df.empty:
-    st.subheader("📈 Summary Highlights for Objective 1")
+    st.subheader("📈 Interactive Summary Highlights for Objective 1")
 
-    avg_age = round(freehold_df["Age"].mean(), 1) if "Age" in freehold_df else 0
-    avg_land = round(freehold_df["Land size"].mean(), 2) if "Land size" in freehold_df else 0
-    avg_household = round(freehold_df["Household size"].mean(), 1) if "Household size" in freehold_df else 0
+    # ---- Calculations ----
+    avg_age = round(freehold_df["Age"].mean(), 1)
+    avg_land = round(freehold_df["Land size"].mean(), 2)
+    avg_household = round(freehold_df["Household size"].mean(), 1)
 
-    if "Level of education" in freehold_df:
-        mode_edu_code = freehold_df["Level of education"].mode()[0]
-        edu_labels = ['No formal education', 'Primary school', 'Secondary school', 'College/University', 'Vocational']
-        most_common_edu = edu_labels[int(mode_edu_code)] if mode_edu_code < len(edu_labels) else "Unknown"
-    else:
+    # Most common education
+    edu_labels = ['No formal education', 'Primary school', 'Secondary school', 'College/University', 'Vocational']
+    try:
+        mode_edu_code = int(freehold_df["Level of education"].mode()[0])
+        most_common_edu = edu_labels[mode_edu_code] if mode_edu_code < len(edu_labels) else "Unknown"
+    except:
         most_common_edu = "N/A"
 
-    if "Gender of household head" in freehold_df:
-        male_count = (freehold_df["Gender of household head"] == 1).sum()
-        female_count = (freehold_df["Gender of household head"] == 2).sum()
-        if male_count + female_count > 0:
-            male_ratio = (male_count / (male_count + female_count)) * 100
-        else:
-            male_ratio = 0
-    else:
-        male_ratio = 0
+    # Gender ratio
+    male_count = (freehold_df["Gender of household head"] == 1).sum()
+    female_count = (freehold_df["Gender of household head"] == 2).sum()
+    total_gender = male_count + female_count
+    male_ratio = (male_count / total_gender) * 100 if total_gender > 0 else 0
 
+    # ---- Layout ----
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("🧓 Average Age", f"{avg_age} yrs")
-    col2.metric("🌾 Average Land Size", f"{avg_land} ha")
-    col3.metric("🎓 Most Common Education", most_common_edu)
-    col4.metric("👨 Male Household Heads", f"{male_ratio:.1f}%")
+
+    # --- Column 1: Age ---
+    with col1:
+        st.markdown("### 🧓 Average Age")
+        st.metric(label="", value=f"{avg_age} yrs")
+        st.progress(min(avg_age / 100, 1.0))
+        st.caption("Most household heads are middle-aged.")
+
+    # --- Column 2: Land Size ---
+    with col2:
+        st.markdown("### 🌾 Average Land Size")
+        st.metric(label="", value=f"{avg_land} ha")
+        st.progress(min(avg_land / 10, 1.0))
+        st.caption("Majority own small- to medium-sized plots.")
+
+    # --- Column 3: Education ---
+    with col3:
+        st.markdown("### 🎓 Most Common Education")
+        st.success(most_common_edu)
+        st.caption("Indicates education trend among household heads.")
+
+    # --- Column 4: Gender Ratio ---
+    with col4:
+        st.markdown("### 👨 Gender of Household Head")
+        fig_gender = go.Figure(go.Indicator(
+            mode="gauge+number",
+            value=male_ratio,
+            gauge={'axis': {'range': [0, 100]},
+                   'bar': {'color': "#4CAF50"},
+                   'steps': [
+                       {'range': [0, 50], 'color': '#f9caca'},
+                       {'range': [50, 100], 'color': '#c8f7c5'}
+                   ]},
+            title={'text': "Male %"}
+        ))
+        fig_gender.update_layout(height=200, margin=dict(l=10, r=10, t=40, b=0))
+        st.plotly_chart(fig_gender, use_container_width=True)
+
 
 # --- Configuration ---
 st.set_page_config(
