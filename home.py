@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import time
-import plotly.graph_objects as go
 # ===========================
 # LOAD DATA DIRECTLY FROM GITHUB
 # ===========================
