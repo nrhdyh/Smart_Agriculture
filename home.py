@@ -104,34 +104,34 @@ if not freehold_df.empty:
         st.success(most_common_edu)
         st.caption("Most household heads have lower education levels.")
 
-        # --- Column 4: Gender Ratio ---
-    with col4:
-        st.markdown("### 👨‍🌾 Gender Distribution")
+    #     # --- Column 4: Gender Ratio ---
+    # with col4:
+    #     st.markdown("### 👨‍🌾 Gender Distribution")
 
-        if "Gender of household head" in freehold_df.columns:
-            gender_col = freehold_df["Gender of household head"]
+    #     if "Gender of household head" in freehold_df.columns:
+    #         gender_col = freehold_df["Gender of household head"]
 
-            # Dataset uses 0 = Male, 1 = Female
-            male_count = (gender_col == 0).sum()
-            female_count = (gender_col == 1).sum()
-            total_gender = male_count + female_count
+    #         # Dataset uses 0 = Male, 1 = Female
+    #         male_count = (gender_col == 0).sum()
+    #         female_count = (gender_col == 1).sum()
+    #         total_gender = male_count + female_count
 
-            if total_gender > 0:
-                male_ratio = (male_count / total_gender) * 100
-                female_ratio = 100 - male_ratio
-            else:
-                male_ratio, female_ratio = 0, 0
-        else:
-            male_ratio, female_ratio, total_gender, female_count = 0, 0, 0, 0
+    #         if total_gender > 0:
+    #             male_ratio = (male_count / total_gender) * 100
+    #             female_ratio = 100 - male_ratio
+    #         else:
+    #             male_ratio, female_ratio = 0, 0
+    #     else:
+    #         male_ratio, female_ratio, total_gender, female_count = 0, 0, 0, 0
 
-        # Display metrics dynamically
-        st.metric(label="Male Heads", value=f"{male_ratio:.1f}%")
-        st.progress(male_ratio / 100)
+    #     # Display metrics dynamically
+    #     st.metric(label="Male Heads", value=f"{male_ratio:.1f}%")
+    #     st.progress(male_ratio / 100)
 
-        if total_gender > 0:
-            st.caption(f"Female Heads: {female_ratio:.1f}% ({female_count} of {total_gender})")
-        else:
-            st.caption("No gender data available.")
+    #     if total_gender > 0:
+    #         st.caption(f"Female Heads: {female_ratio:.1f}% ({female_count} of {total_gender})")
+    #     else:
+    #         st.caption("No gender data available.")
 
 else:
     st.warning("⚠️ No data available. Please check the dataset URL or file format.")
