@@ -26,17 +26,17 @@ st.set_page_config(page_title="Climate Smart Agriculture Dashboard", page_icon="
 
 st.title("🌿 Climate Smart Agriculture Dashboard")
 
+
+
+st.image(
+    "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/main/sustainable-agriculture.jpg"
+)
 st.markdown("""
 ### 📊 Dashboard Overview
 - **Objective 1:** Freehold Household Demographics  
 - **Objective 2:** Climate-Smart Agriculture Insights
 - **Objective 3:** Deeper Correlations and Status Quo
 """)
-
-st.image(
-    "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/main/sustainable-agriculture.jpg"
-)
-
 st.markdown("---")
 # ===========================
 # OBJECTIVE 1: INTERACTIVE SUMMARY BOXES
