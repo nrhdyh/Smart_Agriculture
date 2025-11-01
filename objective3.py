@@ -78,43 +78,8 @@ else:
     # --- Objective 3 Visualizations ---
     st.header("🔗 Objective 3: Deeper Correlations and Status Quo")
 
-    # 1. Relationship between Level of Education and Agroforestry Levels (Grouped Bar Chart)
-    st.subheader("1. Agroforestry Levels by Level of Education")
-    
-    education_col = 'Level of education'
-    agroforestry_col = 'Agroforestry'
-    
-    fig_edu_agro = px.histogram(
-        freehold_df, 
-        x=education_col, 
-        color=agroforestry_col,
-        title='Agroforestry Levels by Level of Education',
-        template=PLOTLY_TEMPLATE, 
-        barmode='group'
-    )
-    
-    # Apply custom labels for X-axis (Education)
-    map_numeric_axis(fig_edu_agro, 'xaxis', education_col)
-    
-    # Apply custom labels for legend (Agroforestry)
-    agroforestry_labels = encoding_mapping[agroforestry_col]
-    fig_edu_agro.for_each_trace(lambda t: t.update(name = agroforestry_labels[int(t.name)]) if t.name.isdigit() and int(t.name) < len(agroforestry_labels) else t)
-
-    # Update legend layout
-    fig_edu_agro.update_layout(
-        legend=dict(title='Agroforestry', orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-    )
-
-    st.plotly_chart(fig_edu_agro, use_container_width=True)
-    st.markdown("""
-    * **Explanation:** This grouped bar chart shows the distribution of different **agroforestry levels** based on the **level of education** of the household head.
-    * **Key Insight:** Explore if there is a relationship between educational attainment and the intensity of agroforestry practices.
-    """)
-
-    st.markdown("---")
-
-    # 2. Relationship between Land Size and Water Harvesting Adoption (Scatter Plot)
-    st.subheader("2. Land Size vs. Water Harvesting Adoption")
+    # 1. Relationship between Land Size and Water Harvesting Adoption (Scatter Plot)
+    st.subheader("1. Land Size vs. Water Harvesting Adoption")
     
     water_harvesting_col = 'Water harvesting'
     
@@ -137,8 +102,8 @@ else:
 
     st.markdown("---")
 
-    # 3. Access to Training by Membership to Community Organization (Grouped Bar Chart)
-    st.subheader("3. Access to Training by Membership to Community Organization")
+    # 2. Access to Training by Membership to Community Organization (Grouped Bar Chart)
+    st.subheader("2. Access to Training by Membership to Community Organization")
     
     membership_col = 'Membership to community organization/Group'
     training_col = 'Access to training'
@@ -172,8 +137,8 @@ else:
 
     st.markdown("---")
 
-    # 4. Distribution of Trend in Soil Condition (Pie Chart)
-    st.subheader("4. Distribution of Trend in Soil Condition among Freehold Households")
+    # 3. Distribution of Trend in Soil Condition (Pie Chart)
+    st.subheader("3. Distribution of Trend in Soil Condition among Freehold Households")
     
     soil_condition_col = 'Trend in soil condition'
     soil_condition_labels = encoding_mapping[soil_condition_col]
@@ -201,8 +166,8 @@ else:
 
     st.markdown("---")
     
-    # 5. Correlation Heatmap of Selected Variables (Complex Visualization)
-    st.header("🔥 Correlation Heatmap of Key Variables")
+    # 4. Correlation Heatmap of Selected Variables (Complex Visualization)
+    st.header("4. 🔥 Correlation Heatmap of Key Variables")
 
     correlation_columns = [
         'Age', 'Household size', 'Land size', 'Level of education', 'Income ',
