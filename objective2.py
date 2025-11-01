@@ -38,7 +38,6 @@ def load_data(url):
         return pd.DataFrame()
 
 freehold_df = load_data(DATA_URL)
-
 # --- Streamlit App Layout ---
 st.title("📊 Freehold Household Head Data Analysis")
 
@@ -47,13 +46,14 @@ if freehold_df.empty:
 else:
     # --- Objective 2 Visualizations ---
     st.header("🔬 Objective 2: Climate-Smart Agriculture Insights")
-      st.markdown("""
-   The objective is to analyze water harvesting adoption by education level, the relationship between land size and agroforestry, 
-   perceptions of climate change by marital status, and the proportion of households with a land use plan.
+    st.markdown("""
+    The objective is to analyze water harvesting adoption by education level, the relationship between land size and agroforestry, 
+    perceptions of climate change by marital status, and the proportion of households with a land use plan.
     """)
 
     st.subheader("Raw Data Sample")
     st.dataframe(freehold_df.head())
+
 
     # 1. Relationship between Level of Education and Water Harvesting Adoption (Grouped Bar Chart)
     st.subheader("1. Water Harvesting Adoption by Level of Education")
