@@ -2,118 +2,113 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# --- Configuration ---
+# ===========================
+# Streamlit Page Configuration
+# ===========================
 st.set_page_config(
-    page_title="Freehold Household Head Data Analysis",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="Objective 1 - Freehold Household Analysis",
+    layout="wide"
 )
 
-# --- Constants ---
-DATA_URL = 'https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/refs/heads/main/freehold_data_on_Climate_Smart_Agriculture.csv'
-PLOTLY_TEMPLATE = 'plotly_dark'
+PLOTLY_TEMPLATE = "plotly_white"
 
+# ===========================
+# Example: Load Your Dataset
+# ===========================
+# Replace this with your actual dataset loading
+# Example: freehold_df = pd.read_csv("your_dataset.csv")
+
+# Example dummy data for testing
+data = {
+    'Age': [35, 42, 50, 28, 39, 46, 52, 37, 41, 55, 60, 33, 48, 29, 44],
+    'Level of education': [1, 2, 2, 0, 1, 3, 2, 1, 0, 2, 3, 1, 2, 1, 0]
+}
+freehold_df = pd.DataFrame(data)
+
+# Mapping (replace this with your own)
 encoding_mapping = {
-    'Level of education': ['No formal education', 'Primary school', 'Secondary school', 'College/University', 'Vocational'],
-    'ï»¿Gender of household head': ['Male', 'Female']
+    'Level of education': ['No Education', 'Primary', 'Secondary', 'Tertiary']
 }
 
-# --- Data Loading ---
-@st.cache_data
-def load_data(url):
-    """Loads and caches the data from the provided URL."""
+# ===========================
+# Objective 1 Visualizations
+# ===========================
+st.header("🎯 Objective 1: Key Data Distributions and Relationships")
+
+# -----------------------------------
+# 1. Distribution of Age (Histogram)
+# -----------------------------------
+st.subheader("1. Distribution of Age among Freehold Household Heads")
+
+fig_age = px.histogram(
+    freehold_df,
+    x='Age',
+    title='Distribution of Age among Freehold Household Heads',
+    template=PLOTLY_TEMPLATE
+)
+
+fig_age.update_layout(bargap=0.2)
+st.plotly_chart(fig_age, use_container_width=True)
+
+st.markdown("""
+**Explanation:**  
+This histogram shows the age distribution of freehold household heads. It helps visualize which age groups are most common in the dataset.
+
+**Key Insight:**  
+You can observe the most frequent age ranges and overall spread. The mean and quartiles (Q1–Q3) can be used to understand the central tendency and variation within this group.
+""")
+
+st.markdown("---")
+
+# ------------------------------------------------
+# 2. Distribution of Level of Education (Bar Chart)
+# ------------------------------------------------
+st.subheader("2. Distribution of Level of Education among Freehold Household Heads")
+
+education_labels = encoding_mapping.get('Level of education', [])
+
+# Calculate percentages
+education_counts = freehold_df['Level of education'].value_counts().sort_index()
+education_percent = (education_counts / education_counts.sum()) * 100
+
+education_df = pd.DataFrame({
+    'Level of education': education_percent.index,
+    'Percentage': education_percent.values
+})
+
+# Replace numeric codes with labels (if available)
+if education_labels:
     try:
-        data = pd.read_csv(url)
-        # Fix encoding issue in the gender column name
-        data = data.rename(columns={'ï»¿Gender of household head': 'Gender of household head'})
-        return data
-    except Exception as e:
-        st.error(f"Error loading data: {e}")
-        return pd.DataFrame()
+        education_df['Level of education'] = education_df['Level of education'].astype(int)
+        education_df['Level of education'] = education_df['Level of education'].apply(
+            lambda x: education_labels[x] if x < len(education_labels) else str(x)
+        )
+    except:
+        pass
 
-freehold_df = load_data(DATA_URL)
+# Create bar chart (percentage)
+fig_education = px.bar(
+    education_df,
+    x='Percentage',
+    y='Level of education',
+    orientation='h',
+    title='Distribution of Level of Education among Freehold Household Heads (Percentage)',
+    labels={'Percentage': 'Percentage (%)', 'Level of education': 'Education Level'},
+    text=education_df['Percentage'].round(1).astype(str) + '%',
+    template=PLOTLY_TEMPLATE
+)
 
-# --- Streamlit App Layout ---
-st.title("📊 Freehold Household Head Data Analysis")
+fig_education.update_traces(textposition='outside')
+st.plotly_chart(fig_education, use_container_width=True)
 
-if freehold_df.empty:
-    st.warning("Could not load data. Please check the URL and file format.")
-else:
-    st.markdown("""
-    The objective is to analyze the distribution of age and education levels among freehold household heads, 
-    examine the relationship between age and land size, 
-    and explore the distribution of household size by gender of the household head.
-    """)
-    
-    st.subheader("Raw Data Sample")
-    st.dataframe(freehold_df.head())
-    
-    st.markdown("---")
+st.markdown("""
+**Explanation:**  
+This bar chart shows the **percentage** of freehold household heads at each level of education.  
+It helps in identifying the educational background distribution within the population.
 
-    # --- Objective 1 Visualizations ---
-    st.header("🎯 Objective 1: Key Data Distributions and Relationships")
+**Key Insight:**  
+The chart highlights which education levels are most common among freehold household heads, showing the share of each group as a percentage of the total.
+""")
 
-    # 1. Distribution of Age (Histogram)
-    st.subheader("1. Distribution of Age among Freehold Household Heads")
-    fig_age = px.histogram(
-        freehold_df, 
-        x='Age', 
-        title='Distribution of Age among Freehold Household Heads', 
-        template=PLOTLY_TEMPLATE
-    )
-    fig_age.update_layout(bargap=0.2)
-    st.plotly_chart(fig_age, use_container_width=True)
+st.markdown("---")
 
-    st.markdown("""
-    The histogram for **“Distribution of Age among Freehold Household Heads”** shows how the ages of people who own freehold land are spread out. 
-    Most household heads are between **45 and 60 years old**, with the highest number around **50 years old**. 
-    The **mean** and **median** are both around **50 years**, with **Q1 ≈ 40 years** and **Q3 ≈ 60 years**, giving an **IQR ≈ 20 years**. 
-    This suggests that middle-aged people are the main holders of freehold land.
-    """)
-    st.markdown("---")
-
-    # 2. Distribution of Level of Education (Bar Chart)
-    st.subheader("2. Distribution of Level of Education among Freehold Household Heads")
-
-    education_labels = encoding_mapping.get('Level of education', [])
-
-    # --- Calculate percentage distribution ---
-    education_counts = freehold_df['Level of education'].value_counts()
-    education_percent = (education_counts / education_counts.sum()) * 100
-
-    # Convert to DataFrame
-    education_df = pd.DataFrame({
-        'Level of education': education_percent.index,
-        'Percentage': education_percent.values
-    })
-
-    # --- Replace numeric codes with labels (if mapping exists) ---
-    if education_labels:
-        try:
-            education_df['Level of education'] = education_df['Level of education'].astype(int)
-            education_df['Level of education'] = education_df['Level of education'].apply(
-                lambda x: education_labels[x] if x < len(education_labels) else str(x)
-            )
-        except:
-            pass
-
-    # --- Create percentage bar chart ---
-    fig_education = px.bar(
-        education_df,
-        x='Percentage',
-        y='Level of education',
-        orientation='h',
-        title='Distribution of Level of Education among Freehold Household Heads (Percentage)',
-        labels={'Percentage': 'Percentage (%)', 'Level of education': 'Education Level'},
-        text=education_df['Percentage'].round(1).astype(str) + '%',
-        template=PLOTLY_TEMPLATE
-    )
-
-    fig_education.update_traces(textposition='outside')
-    st.plotly_chart(fig_education, use_container_width=True)
-
-    st.markdown("""
-    * **Explanation:** This bar chart shows the **percentage** of freehold household heads at each education level.
-    * **Key Insight:** Observe which education level has the highest proportion among freehold household heads.
-    """)
-    st.markdown("-
