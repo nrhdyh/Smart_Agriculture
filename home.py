@@ -24,7 +24,7 @@ freehold_df = load_data(DATA_URL)
 # ===========================
 st.set_page_config(page_title="Climate Smart Agriculture Dashboard", page_icon="🌿", layout="wide")
 
-st.title("🌿 Climate Smart Agriculture Dashboard")
+st.title("🌿 Climate Smart Agriculture from Kakamega County, Kenya Dashboard")
 
 
 
