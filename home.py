@@ -126,6 +126,7 @@ if not freehold_df.empty:
 
 else:
     st.warning("⚠️ No data available. Please check the dataset URL or file format.")
+    st.markdown("---")
 
 # --- Data URL and Template ---
 DATA_URL = 'https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/refs/heads/main/freehold_data_on_Climate_Smart_Agriculture.csv'
