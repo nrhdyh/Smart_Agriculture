@@ -38,10 +38,6 @@ st.image(
 # OBJECTIVE 1: INTERACTIVE SUMMARY BOXES
 # ===========================
 if not freehold_df.empty:
-    st.markdown("""
-    Analyze the distribution of age, education, and land ownership among freehold household heads.
-    """)
-
     st.subheader("📈 Summary Highlights")
 
     # ---- Calculations with safety checks ----
