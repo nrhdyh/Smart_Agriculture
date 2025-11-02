@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from streamlit_extras.let_it_rain import rain
 # ===========================
 # LOAD DATA DIRECTLY FROM GITHUB
 # ===========================
@@ -34,55 +33,41 @@ st.image(
 )
 
 
+import streamlit as st
+
 st.markdown("""
     <style>
-        .main-header {
+        .overview-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #7B68EE;
             text-align: center;
-            font-size: 30px;
-            font-weight: 800;
-            color: #4B0082;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
-        .objective-card {
-            background-color: #f8f9fa;
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin: 10px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .objective-title {
+        .sub-objective {
             font-size: 18px;
-            font-weight: bold;
-            color: #4B0082;
-        }
-        .objective-desc {
-            font-size: 15px;
-            color: #333;
-            margin-top: 4px;
+            background-color: #f5f5ff;
+            border-left: 6px solid #7B68EE;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 5px 0;
         }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-header">📈 Dashboard Overview</div>', unsafe_allow_html=True)
+st.markdown('<div class="overview-title">📊 Dashboard Overview</div>', unsafe_allow_html=True)
 
-st.markdown("""
-<div class="objective-card">
-    <div class="objective-title">🎯 Objective 1: Freehold Household Demographics</div>
-    <div class="objective-desc">Visualize household structure, gender, income levels, and property types.</div>
-</div>
+with st.expander("**🎯 Objective 1: Freehold Household Demographics**"):
+    st.write("Analyze household structures, gender distribution, income brackets, and land ownership patterns.")
 
-<div class="objective-card">
-    <div class="objective-title">🌿 Objective 2: Climate-Smart Agriculture Insights</div>
-    <div class="objective-desc">Understand adoption rates of CSA practices and perception of climate change.</div>
-</div>
+with st.expander("**🌱 Objective 2: Climate-Smart Agriculture Insights**"):
+    st.write("Explore adoption patterns, CSA practices, and relationships between awareness, training, and resilience.")
 
-<div class="objective-card">
-    <div class="objective-title">🔍 Objective 3: Deeper Correlations and Status Quo</div>
-    <div class="objective-desc">Explore variable relationships using correlation heatmaps and scatter plots.</div>
-</div>
-""", unsafe_allow_html=True)
+with st.expander("**🔍 Objective 3: Deeper Correlations and Status Quo**"):
+    st.write("Investigate multivariate relationships between demographics, income, and CSA adoption trends.")
 
 st.markdown("---")
+
 # ===========================
 # OBJECTIVE 1: INTERACTIVE SUMMARY BOXES
 # ===========================
