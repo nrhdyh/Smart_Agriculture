@@ -33,46 +33,11 @@ st.image(
 )
 
 
-import streamlit as st
-
-st.markdown("""
-    <style>
-        .overview-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #7B68EE;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        .sub-objective {
-            font-size: 18px;
-            background-color: #f5f5ff;
-            border-left: 6px solid #7B68EE;
-            padding: 10px 16px;
-            border-radius: 8px;
-            margin: 5px 0;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown('<div class="overview-title">📊 Dashboard Overview</div>', unsafe_allow_html=True)
-
-with st.expander("**🎯 Objective 1: Freehold Household Demographics**"):
-    st.write("Analyze household structures, gender distribution, income brackets, and land ownership patterns.")
-
-with st.expander("**🌱 Objective 2: Climate-Smart Agriculture Insights**"):
-    st.write("Explore adoption patterns, CSA practices, and relationships between awareness, training, and resilience.")
-
-with st.expander("**🔍 Objective 3: Deeper Correlations and Status Quo**"):
-    st.write("Investigate multivariate relationships between demographics, income, and CSA adoption trends.")
-
-st.markdown("---")
 
 # ===========================
 # OBJECTIVE 1: INTERACTIVE SUMMARY BOXES
 # ===========================
 if not freehold_df.empty:
-    st.header("📊 Objective 1: Freehold Household Demographics")
     st.markdown("""
     Analyze the distribution of age, education, and land ownership among freehold household heads.
     """)
