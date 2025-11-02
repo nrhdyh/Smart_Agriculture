@@ -174,7 +174,7 @@ else:
 
 
     # --- Objective 1 Visualizations ---
-    st.header("🎯 Objective 1: Key Data Distributions and Relationships")
+    # st.header("🎯 Objective 1: Key Data Distributions and Relationships")
 
     # ------------------------------------------------
     # 1. Distribution of Age (Histogram)
