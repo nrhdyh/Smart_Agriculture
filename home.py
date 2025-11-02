@@ -153,7 +153,7 @@ def load_data(url):
         return pd.DataFrame()
 
 freehold_df = load_data(DATA_URL)
-
+st.markdown("---")
 # --- Streamlit App Layout ---
 st.title("📊 Freehold Household Head Data Analysis")
 st.header("🔬 Objective 1: Freehold Household Demographics")
