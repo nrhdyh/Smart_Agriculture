@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from streamlit_extras.let_it_rain import rain
 # ===========================
 # LOAD DATA DIRECTLY FROM GITHUB
 # ===========================
@@ -31,12 +32,56 @@ st.title("🌿 Climate Smart Agriculture from Kakamega County, Kenya Dashboard")
 st.image(
     "https://raw.githubusercontent.com/nrhdyh/Smart_Agriculture/main/The-Applications-of-Drones-in-the-Agriculture-Industry-2-1024x536.jpg"
 )
+
+
 st.markdown("""
-### 📊 Dashboard Overview
-- **Objective 1:** Freehold Household Demographics  
-- **Objective 2:** Climate-Smart Agriculture Insights
-- **Objective 3:** Deeper Correlations and Status Quo
-""")
+    <style>
+        .main-header {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 800;
+            color: #4B0082;
+            margin-bottom: 20px;
+        }
+        .objective-card {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .objective-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4B0082;
+        }
+        .objective-desc {
+            font-size: 15px;
+            color: #333;
+            margin-top: 4px;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown('<div class="main-header">📈 Dashboard Overview</div>', unsafe_allow_html=True)
+
+st.markdown("""
+<div class="objective-card">
+    <div class="objective-title">🎯 Objective 1: Freehold Household Demographics</div>
+    <div class="objective-desc">Visualize household structure, gender, income levels, and property types.</div>
+</div>
+
+<div class="objective-card">
+    <div class="objective-title">🌿 Objective 2: Climate-Smart Agriculture Insights</div>
+    <div class="objective-desc">Understand adoption rates of CSA practices and perception of climate change.</div>
+</div>
+
+<div class="objective-card">
+    <div class="objective-title">🔍 Objective 3: Deeper Correlations and Status Quo</div>
+    <div class="objective-desc">Explore variable relationships using correlation heatmaps and scatter plots.</div>
+</div>
+""", unsafe_allow_html=True)
+
 st.markdown("---")
 # ===========================
 # OBJECTIVE 1: INTERACTIVE SUMMARY BOXES
